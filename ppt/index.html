@@ -1407,29 +1407,29 @@
     <div class="duo-compare" data-anim="up">
       <div class="col accent">
         <div class="col-tag"><span class="num">H</span> Hermes Agent</div>
-        <div class="col-ttl">Brain / Memory</div>
-        <p class="col-desc">主打自我改進、persistent memory、skills loop、cloud-friendly terminal backends。</p>
+        <div class="col-ttl">Agent Brain / Work Engine</div>
+        <p class="col-desc">把 agent loop、memory、skills、tool execution 放在 server-first workflow 裡。</p>
         <ul class="col-list">
-          <li>適合把 agent 放到 server，從聊天軟體長期呼叫。</li>
-          <li>適合做 skills、memory、cron、subagents 的長期工作流。</li>
-          <li>有 `hermes claw migrate`，但仍要分清楚能搬與不能搬。</li>
+          <li>適合 GCE 常駐：先跑通 CLI，再接 Telegram/Discord。</li>
+          <li>適合 memory、skills、sessions、tools 的長期工作流。</li>
+          <li>遷移時先看 persona、memory、skills，不搬整個 runtime。</li>
         </ul>
       </div>
       <div class="vrule"></div>
       <div class="col">
         <div class="col-tag"><span class="num">O</span> OpenClaw</div>
-        <div class="col-ttl">Gateway / Ecosystem</div>
-        <p class="col-desc">更像 personal assistant runtime：多通道 gateway、dashboard、mobile nodes、media workflows。</p>
+        <div class="col-ttl">Gateway / Assistant Runtime</div>
+        <p class="col-desc">把多通道入口、dashboard、mobile nodes、media/channel workflows 串成個人助理 runtime。</p>
         <ul class="col-list">
-          <li>適合多平台入口與手機節點需求。</li>
-          <li>適合已經有 Telegram/Discord/iMessage/LINE 等既有運作。</li>
-          <li>runtime state 不應直接當成 Hermes memory 匯入。</li>
+          <li>適合已有 Telegram/Discord/iMessage/LINE 或手機節點流程。</li>
+          <li>適合先把 channel policy、dashboard、media flow 留在原位。</li>
+          <li>bindings、sessions、cron、runs 不應直接視為 Hermes memory。</li>
         </ul>
       </div>
     </div>
     <aside class="speaker-notes">
-      <p>用「brain vs gateway ecosystem」讓混合受眾快速抓差異。這不是誰完全取代誰，而是工作負載不同。</p>
-      <p>補一句：OpenClaw 的 gateway、cron、session store、bindings 都是 runtime 層；Hermes migration 主要先看 persona、memory、skills、compatible settings。</p>
+      <p>這頁用 30 到 45 秒講清楚：Hermes 偏 agent brain 和 work engine，OpenClaw 偏 gateway 和 personal assistant runtime。不是誰全面取代誰，而是層級和工作負載不同。</p>
+      <p>實務判斷：新的 server-first agent flow 優先試 Hermes；如果已經有多通道 assistant runtime、dashboard、手機節點或 media flow，OpenClaw 先保留。詳細選型、dry-run migration 和並行策略留到後面三頁。</p>
     </aside>
   </div>
 </section>
@@ -2166,16 +2166,16 @@ const I18N_TEXT={
   'GCE 負責常駐與工具執行；Hermes 負責 agent loop、memory、skills；模型 provider 與 messaging platform 都是可替換邊界。':'GCE handles uptime and tool execution; Hermes handles the agent loop, memory, and skills; model providers and messaging platforms are replaceable boundaries.',
   '這張不要講太深，重點是邊界：GCE、Hermes、provider、gateway 都能單獨替換。今天只選最短路徑。':'Do not go too deep here. The point is boundaries: GCE, Hermes, provider, and gateway can each be replaced. Today we choose the shortest path.',
   '強調 Telegram polling 與 Discord gateway 都是 outbound，因此 demo 不需要開 HTTP/HTTPS inbound firewall。':'Emphasize that Telegram polling and the Discord gateway are outbound, so the demo does not need inbound HTTP/HTTPS firewall rules.',
-  '主打自我改進、persistent memory、skills loop、cloud-friendly terminal backends。':'Focused on self-improvement, persistent memory, a skills loop, and cloud-friendly terminal backends.',
-  '適合把 agent 放到 server，從聊天軟體長期呼叫。':'Good for putting the agent on a server and calling it from chat apps over time.',
-  '適合做 skills、memory、cron、subagents 的長期工作流。':'Good for long-running workflows with skills, memory, cron, and subagents.',
-  '有 `hermes claw migrate`，但仍要分清楚能搬與不能搬。':'It has `hermes claw migrate`, but you still need to separate what is portable from what is not.',
-  '更像 personal assistant runtime：多通道 gateway、dashboard、mobile nodes、media workflows。':'Closer to a personal assistant runtime: multi-channel gateways, dashboard, mobile nodes, and media workflows.',
-  '適合多平台入口與手機節點需求。':'Good when multi-platform entry points and mobile nodes matter.',
-  '適合已經有 Telegram/Discord/iMessage/LINE 等既有運作。':'Good when Telegram, Discord, iMessage, LINE, or similar channels are already running.',
-  'runtime state 不應直接當成 Hermes memory 匯入。':'Runtime state should not be imported as Hermes memory.',
-  '用「brain vs gateway ecosystem」讓混合受眾快速抓差異。這不是誰完全取代誰，而是工作負載不同。':'Use “brain vs gateway ecosystem” so a mixed audience can get the difference quickly. This is not full replacement; the workloads are different.',
-  '補一句：OpenClaw 的 gateway、cron、session store、bindings 都是 runtime 層；Hermes migration 主要先看 persona、memory、skills、compatible settings。':'Add that OpenClaw gateways, cron, session stores, and bindings are runtime-layer concerns. Hermes migration starts with persona, memory, skills, and compatible settings.',
+  '把 agent loop、memory、skills、tool execution 放在 server-first workflow 裡。':'Places the agent loop, memory, skills, and tool execution inside a server-first workflow.',
+  '適合 GCE 常駐：先跑通 CLI，再接 Telegram/Discord。':'Fits an always-on GCE setup: get CLI working first, then connect Telegram/Discord.',
+  '適合 memory、skills、sessions、tools 的長期工作流。':'Fits long-running workflows built around memory, skills, sessions, and tools.',
+  '遷移時先看 persona、memory、skills，不搬整個 runtime。':'For migration, start with persona, memory, and skills. Do not move the whole runtime.',
+  '把多通道入口、dashboard、mobile nodes、media/channel workflows 串成個人助理 runtime。':'Connects multi-channel entry points, dashboard, mobile nodes, and media/channel workflows into a personal assistant runtime.',
+  '適合已有 Telegram/Discord/iMessage/LINE 或手機節點流程。':'Fits existing Telegram, Discord, iMessage, LINE, or mobile-node workflows.',
+  '適合先把 channel policy、dashboard、media flow 留在原位。':'Fits keeping channel policy, dashboard, and media flows in place first.',
+  'bindings、sessions、cron、runs 不應直接視為 Hermes memory。':'Bindings, sessions, cron, and runs should not be treated as Hermes memory.',
+  '這頁用 30 到 45 秒講清楚：Hermes 偏 agent brain 和 work engine，OpenClaw 偏 gateway 和 personal assistant runtime。不是誰全面取代誰，而是層級和工作負載不同。':'Use 30 to 45 seconds here: Hermes leans toward agent brain and work engine; OpenClaw leans toward gateway and personal assistant runtime. This is not full replacement. The layers and workloads differ.',
+  '實務判斷：新的 server-first agent flow 優先試 Hermes；如果已經有多通道 assistant runtime、dashboard、手機節點或 media flow，OpenClaw 先保留。詳細選型、dry-run migration 和並行策略留到後面三頁。':'Practical rule: try Hermes first for new server-first agent flows. If a multi-channel assistant runtime, dashboard, mobile node, or media flow already exists, keep OpenClaw in place first. Leave detailed selection, dry-run migration, and parallel strategy for the following slides.',
   '選型速判':'Fast selection guide',
   '不要把 gateway 問題當成 memory 問題，也不要把 memory migration 當成 runtime migration。':'Do not treat a gateway problem as a memory problem, and do not treat memory migration as runtime migration.',
   '長期記憶與 skills 是主需求':'Long-term memory and skills are the main need',
