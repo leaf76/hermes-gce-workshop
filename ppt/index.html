@@ -1287,7 +1287,7 @@
       <div data-anim="bottom" style="display:grid;grid-template-rows:auto auto;gap:1.6vh;border-top:1px solid rgba(255,255,255,.22);padding-top:2vh">
         <div class="lead" style="max-width:58ch;color:rgba(255,255,255,.86);font-weight:300">30 分鐘核心路線，40 分鐘完整 live demo：安裝、模型、Telegram、Discord，以及 OpenClaw 選型比較。</div>
         <div style="display:flex;justify-content:space-between;align-items:end">
-          <div class="t-meta" style="color:rgba(255,255,255,.6)">Gemini API Key · ChatGPT Codex · Telegram First</div>
+          <div class="t-meta" style="color:rgba(255,255,255,.6)">ChatGPT Codex First · Gemini API Fallback · Telegram First</div>
           <div class="t-meta" style="color:rgba(255,255,255,.6)">N for notes</div>
         </div>
       </div>
@@ -1310,7 +1310,7 @@
       <div class="tl-row" style="grid-template-columns:repeat(5,1fr)">
         <div class="th-node up accent"><span class="dot"></span><div class="label"><div class="yr">01</div><div class="name">GCE VM</div><div class="desc">建立環境</div></div></div>
         <div class="th-node down"><span class="dot"></span><div class="label"><div class="yr">02</div><div class="name">Hermes</div><div class="desc">安裝與 doctor</div></div></div>
-        <div class="th-node up"><span class="dot"></span><div class="label"><div class="yr">03</div><div class="name">Models</div><div class="desc">Gemini / Codex</div></div></div>
+        <div class="th-node up"><span class="dot"></span><div class="label"><div class="yr">03</div><div class="name">Models</div><div class="desc">Codex / Gemini</div></div></div>
         <div class="th-node down"><span class="dot"></span><div class="label"><div class="yr">04</div><div class="name">Gateway</div><div class="desc">Telegram first</div></div></div>
         <div class="th-node up"><span class="dot"></span><div class="label"><div class="yr">05</div><div class="name">Compare</div><div class="desc">OpenClaw decision</div></div></div>
       </div>
@@ -1381,12 +1381,12 @@
         <div class="t-h-prod" style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);color:var(--paper)">Hermes</div>
         <div class="t-meta" style="position:absolute;left:0;top:46%">GCE VM</div>
         <div class="t-meta" style="position:absolute;right:0;top:46%;text-align:right">Telegram / Discord</div>
-        <div class="t-meta" style="position:absolute;left:42%;top:0">Gemini / Codex</div>
+        <div class="t-meta" style="position:absolute;left:42%;top:0">Codex / Gemini</div>
         <div class="t-meta" style="position:absolute;left:42%;bottom:0">Memory / Skills</div>
       </div>
       <div style="display:grid;grid-template-columns:1fr;gap:1.2vh">
         <div class="card-fill" style="padding:2vh 1.5vw"><div class="t-meta">Runtime</div><div class="t-h-prod">Ubuntu 24.04 on Compute Engine</div></div>
-        <div class="card-fill" style="padding:2vh 1.5vw"><div class="t-meta">Provider</div><div class="t-h-prod">Google AI Studio Gemini API key first</div></div>
+        <div class="card-fill" style="padding:2vh 1.5vw"><div class="t-meta">Provider</div><div class="t-h-prod">OpenAI Codex first, Gemini API fallback</div></div>
         <div class="card-fill" style="padding:2vh 1.5vw"><div class="t-meta">Gateway</div><div class="t-h-prod">Telegram polling, Discord as contrast</div></div>
       </div>
     </div>
@@ -1472,13 +1472,13 @@
         <div class="th-node up accent"><span class="dot"></span><div class="label"><div class="yr">00</div><div class="name">Prepare</div><div class="desc">key / bot / project</div></div></div>
         <div class="th-node down"><span class="dot"></span><div class="label"><div class="yr">01</div><div class="name">Create VM</div><div class="desc">Ubuntu + SSH</div></div></div>
         <div class="th-node up"><span class="dot"></span><div class="label"><div class="yr">02</div><div class="name">Install</div><div class="desc">Hermes + doctor</div></div></div>
-        <div class="th-node down"><span class="dot"></span><div class="label"><div class="yr">03</div><div class="name">Model</div><div class="desc">Gemini / Codex</div></div></div>
+        <div class="th-node down"><span class="dot"></span><div class="label"><div class="yr">03</div><div class="name">Model</div><div class="desc">Codex / Gemini</div></div></div>
         <div class="th-node up"><span class="dot"></span><div class="label"><div class="yr">04</div><div class="name">Gateway</div><div class="desc">Telegram test</div></div></div>
       </div>
     </div>
     <div class="t-meta" style="margin-top:auto;border-top:1px solid var(--border-subtle);padding-top:2vh">如果卡住，直接跳到 slide 21 的 recovery ladder。</div>
     <aside class="speaker-notes">
-      <p>提醒自己：live demo 一定先準備好 Telegram bot token 和 Gemini API key，但不要投影 secret。現場只貼 placeholder 或在不投影的終端輸入。</p>
+      <p>提醒自己：live demo 一定先準備好 Telegram bot token 和 Codex device login；Gemini API key 作為備援，但不要投影任何 secret。現場只貼 placeholder 或在不投影的終端輸入。</p>
       <p>如果 VM 建立或 install 太慢，用這頁繼續講流程，不要讓觀眾看進度條太久。</p>
     </aside>
   </div>
@@ -1493,7 +1493,7 @@
     </div>
     <div class="sub-grid-3-2" data-anim="up">
       <div class="sub-card"><div class="nb-corner">01</div><div class="ttl">Project</div><div class="desc">選定專案，避免 demo 資源散落到錯的 billing account。</div></div>
-      <div class="sub-card"><div class="nb-corner">02</div><div class="ttl">Billing</div><div class="desc">Gemini API key 與 GCE VM 都需要明確知道費用來源。</div></div>
+      <div class="sub-card"><div class="nb-corner">02</div><div class="ttl">Billing</div><div class="desc">Codex 免費額度可降低 demo 成本；GCE VM 與 Gemini 備援仍要確認費用來源。</div></div>
       <div class="sub-card accent"><div class="nb-corner">03</div><div class="ttl">Compute API</div><div class="desc">先啟用 Compute Engine API，建立 VM 才不會中斷。</div></div>
       <div class="sub-card"><div class="nb-corner">04</div><div class="ttl">SSH</div><div class="desc">Console SSH 或 `gcloud compute ssh` 都可；先確認登入方式。</div></div>
       <div class="sub-card"><div class="nb-corner">05</div><div class="ttl">Secrets</div><div class="desc">API key、bot token 用 password manager 或非投影輸入。</div></div>
@@ -1603,87 +1603,86 @@
 
 <section class="slide" data-layout="S08" data-animate="duo-mirror">
   <div class="canvas-card">
-    <div class="chrome-min"><div class="l">13 / 24 · Models</div><div class="r">Gemini / Codex</div></div>
+    <div class="chrome-min"><div class="l">13 / 24 · Models</div><div class="r">Codex / Gemini</div></div>
     <div data-anim="line" style="display:flex;flex-direction:column;gap:1.4vh">
       <div class="t-meta">MODEL PATHS</div>
-      <h2 data-slide-title class="h-xl-zh" style="font-size:min(5.1vw,8.9vh)">Gemini API key vs ChatGPT Codex</h2>
+      <h2 data-slide-title class="h-xl-zh" style="font-size:min(5.1vw,8.9vh)">ChatGPT Codex vs Gemini API key</h2>
     </div>
     <div class="duo-compare" data-anim="up">
       <div class="col accent">
-        <div class="col-tag"><span class="num">01</span> Gemini API key</div>
-        <div class="col-ttl">Official API</div>
-        <p class="col-desc">Hermes native `gemini` provider，使用 Google AI Studio / Gemini API。</p>
+        <div class="col-tag"><span class="num">01</span> ChatGPT Codex</div>
+        <div class="col-ttl">Primary path</div>
+        <p class="col-desc">透過 `hermes model` 選 OpenAI Codex，依 device-code flow 登入。</p>
         <ul class="col-list">
-          <li>環境變數：`GOOGLE_API_KEY` 或 `GEMINI_API_KEY`。</li>
-          <li>適合正式 demo 與持續 agent sessions。</li>
-          <li>billing-enabled project 較適合長時間工具呼叫。</li>
+          <li>優先使用 Codex，因為有可用免費額度。</li>
+          <li>不需要在 VM 上手動安裝 Codex CLI。</li>
+          <li>現場注意 OAuth code 不要投影給觀眾。</li>
         </ul>
       </div>
       <div class="vrule"></div>
       <div class="col">
-        <div class="col-tag"><span class="num">02</span> ChatGPT Codex</div>
-        <div class="col-ttl">Device OAuth</div>
-        <p class="col-desc">透過 `hermes model` 選 OpenAI Codex，依 device-code flow 登入。</p>
+        <div class="col-tag"><span class="num">02</span> Gemini API key</div>
+        <div class="col-ttl">Fallback API</div>
+        <p class="col-desc">Hermes native `gemini` provider，使用 Google AI Studio / Gemini API。</p>
         <ul class="col-list">
-          <li>不需要在 VM 上手動安裝 Codex CLI。</li>
-          <li>適合作為切換模型與比較體驗的補充。</li>
-          <li>現場注意 OAuth code 不要投影給觀眾。</li>
+          <li>環境變數：`GOOGLE_API_KEY` 或 `GEMINI_API_KEY`。</li>
+          <li>適合作為 Codex 不可用時的備援 provider。</li>
+          <li>長時間工具呼叫仍要確認 quota 與 billing。</li>
         </ul>
       </div>
     </div>
     <aside class="speaker-notes">
-      <p>建議把 Gemini 當主線，因為 API key provider 是官方最低風險路徑。Codex 是第二條可示範的 provider path。</p>
-      <p>不要在投影片中放真實 key，也不要示範把 key 寫到 shell history 的壞習慣；現場可用 `hermes model` 互動式輸入。</p>
+      <p>建議把 Codex 當主線，因為現場可以善用可用免費額度；Gemini API key 留作備援，避免 Codex quota、OAuth 或區域因素卡住整場 demo。</p>
+      <p>不要在投影片中放真實 key，也不要投影 OAuth code。Gemini 備援可用 `hermes model` 互動式輸入，不要把 key 寫進 shell history。</p>
     </aside>
   </div>
 </section>
 
 <section class="slide dark" data-layout="S21" data-animate="tech-spec">
   <div class="canvas-card">
-    <div class="chrome-min"><div class="l">14 / 24 · Gemini Setup</div><div class="r">Native Provider</div></div>
+    <div class="chrome-min"><div class="l">14 / 24 · Codex Setup</div><div class="r">Primary Provider</div></div>
     <div data-anim="line" style="display:flex;flex-direction:column;gap:1.4vh">
-      <div class="t-meta">GOOGLE AI STUDIO</div>
-      <h2 data-slide-title class="h-xl-zh" style="font-size:min(5vw,8.8vh)">Gemini setup</h2>
+      <div class="t-meta">OPENAI CODEX</div>
+      <h2 data-slide-title class="h-xl-zh" style="font-size:min(5vw,8.8vh)">Codex setup</h2>
     </div>
     <div data-anim="up" style="display:grid;grid-template-columns:5fr 7fr;gap:3vw;flex:1;margin-top:4vh">
       <div style="display:flex;flex-direction:column;gap:2vh">
-        <div style="font-family:var(--sans);font-weight:200;font-size:min(6vw,10.4vh);line-height:.98;letter-spacing:-.03em">API key<br/>not OAuth<br/>for demo.</div>
-        <pre class="cmd">echo "GOOGLE_API_KEY=..." &gt;&gt; ~/.hermes/.env
-hermes model
+        <div style="font-family:var(--sans);font-weight:200;font-size:min(6vw,10.4vh);line-height:.98;letter-spacing:-.03em">Use free<br/>quota<br/>first.</div>
+        <pre class="cmd">hermes model
 hermes chat</pre>
       </div>
       <div class="status-grid">
-        <div class="status-card"><div class="t-meta">01</div><div class="ttl">Create key</div><div class="desc">Google AI Studio 建立 API key，綁定可用 project。</div></div>
-        <div class="status-card accent"><div class="t-meta">02</div><div class="ttl">Pick provider</div><div class="desc">`hermes model` → Google AI Studio / Gemini。</div></div>
-        <div class="status-card"><div class="t-meta">03</div><div class="ttl">Choose model</div><div class="desc">用 picker 當下列出的可用 Gemini model，不硬背舊 model id。</div></div>
-        <div class="status-card ink"><div class="t-meta">04</div><div class="ttl">Run doctor</div><div class="desc">若 key tier 或 quota 不對，`hermes doctor` 先看診斷。</div></div>
+        <div class="status-card"><div class="t-meta">01</div><div class="ttl">Run picker</div><div class="desc">`hermes model` 選 OpenAI Codex provider。</div></div>
+        <div class="status-card accent"><div class="t-meta">02</div><div class="ttl">Device code</div><div class="desc">開啟登入 URL，輸入一次性 code；不要投影 code。</div></div>
+        <div class="status-card"><div class="t-meta">03</div><div class="ttl">Use quota</div><div class="desc">先使用 Codex 可用免費額度，降低 workshop 前期成本。</div></div>
+        <div class="status-card ink"><div class="t-meta">04</div><div class="ttl">Run doctor</div><div class="desc">若 auth 或 quota 不對，`hermes doctor` 先看診斷。</div></div>
       </div>
     </div>
     <aside class="speaker-notes">
-      <p>官方文件說 native Gemini provider 會把 Hermes 的 OpenAI-shaped loop 轉成 Gemini native `generateContent`。這是為什麼我們選 API key provider。</p>
-      <p>如果出現 quota 或 model not found，就回到 `hermes model` 重新選當下可用模型。</p>
+      <p>這頁是新的主線：先用 Codex，因為有免費額度可以支撐 workshop demo。提醒自己 OAuth device code 不要投影，登入畫面可以切到非投影螢幕。</p>
+      <p>如果 Codex auth、quota 或網路限制卡住，不要現場硬修太久；直接切到下一頁的 Gemini API key 備援路線。</p>
     </aside>
   </div>
 </section>
 
 <section class="slide grey" data-layout="S16" data-animate="field-notes">
   <div class="canvas-card">
-    <div class="chrome-min"><div class="l">15 / 24 · Codex Setup</div><div class="r">Secondary Provider</div></div>
+    <div class="chrome-min"><div class="l">15 / 24 · Gemini Fallback</div><div class="r">Backup Provider</div></div>
     <div data-anim="line" style="display:flex;flex-direction:column;gap:1.4vh">
-      <div class="t-meta">OPENAI CODEX</div>
-      <h2 data-slide-title class="h-xl-zh" style="font-size:min(5.2vw,9.1vh)">Codex setup</h2>
+      <div class="t-meta">GOOGLE AI STUDIO</div>
+      <h2 data-slide-title class="h-xl-zh" style="font-size:min(5.2vw,9.1vh)">Gemini fallback setup</h2>
     </div>
     <div class="sub-grid-3-2" data-anim="up">
-      <div class="sub-card accent"><div class="nb-corner">01</div><div class="ttl">Run picker</div><div class="desc">`hermes model` 選 OpenAI Codex provider。</div></div>
-      <div class="sub-card"><div class="nb-corner">02</div><div class="ttl">Device code</div><div class="desc">開啟登入 URL，輸入一次性 code。</div></div>
-      <div class="sub-card"><div class="nb-corner">03</div><div class="ttl">Auth store</div><div class="desc">Hermes 會把 credential 放在自己的 auth store。</div></div>
-      <div class="sub-card"><div class="nb-corner">04</div><div class="ttl">Switch</div><div class="desc">在 session 內用 `/model` 切已設定好的模型。</div></div>
-      <div class="sub-card"><div class="nb-corner">05</div><div class="ttl">Compare</div><div class="desc">同一個 prompt 比 Gemini/Codex 的回覆與速度。</div></div>
-      <div class="sub-card"><div class="nb-corner">06</div><div class="ttl">Do not leak</div><div class="desc">OAuth code 和 session tokens 不投影、不截圖。</div></div>
+      <div class="sub-card accent"><div class="nb-corner">01</div><div class="ttl">Create key</div><div class="desc">Google AI Studio 建立 API key，綁定可用 project。</div></div>
+      <div class="sub-card"><div class="nb-corner">02</div><div class="ttl">Env var</div><div class="desc">使用 `GOOGLE_API_KEY` 或 `GEMINI_API_KEY`，只放 placeholder。</div></div>
+      <div class="sub-card"><div class="nb-corner">03</div><div class="ttl">Pick provider</div><div class="desc">`hermes model` → Google AI Studio / Gemini。</div></div>
+      <div class="sub-card"><div class="nb-corner">04</div><div class="ttl">Choose model</div><div class="desc">用 picker 當下列出的可用 Gemini model，不硬背舊 model id。</div></div>
+      <div class="sub-card"><div class="nb-corner">05</div><div class="ttl">Switch</div><div class="desc">Codex 卡住時再切，不要一開始就做多 provider fallback maze。</div></div>
+      <div class="sub-card"><div class="nb-corner">06</div><div class="ttl">Do not leak</div><div class="desc">API key 不投影、不截圖、不寫進 shell history。</div></div>
     </div>
     <aside class="speaker-notes">
-      <p>這頁不用真的在正式 demo 中完整跑第二次 provider setup，除非時間夠。核心是讓聽眾知道 Hermes 可以用多個 provider。</p>
-      <p>如果使用者本機已有 Codex CLI credential，Hermes 也可能偵測匯入；但講義保持簡化，不依賴這件事。</p>
+      <p>Gemini 現在是備援，不是第一條 demo path。它的價值是 API key provider 簡單、可控，當 Codex quota 或 OAuth 卡住時可以救場。</p>
+      <p>官方文件說 native Gemini provider 會把 Hermes 的 OpenAI-shaped loop 轉成 Gemini native `generateContent`；但現場仍要注意 quota、billing 與 model availability。</p>
     </aside>
   </div>
 </section>
@@ -1792,7 +1791,7 @@ hermes chat</pre>
       <div class="status-card accent" style="padding:3vh 2vw">
         <div class="t-meta">SUCCESS</div>
         <div class="ttl" style="font-size:min(3.2vw,5.6vh)">手機收到 Hermes 回覆</div>
-        <div class="desc">Gateway log 顯示 Telegram connected；Hermes 使用已選定的 Gemini provider；回覆內容可以驗證 VM 狀態。</div>
+        <div class="desc">Gateway log 顯示 Telegram connected；Hermes 使用已選定的 Codex provider；回覆內容可以驗證 VM 狀態。</div>
         <pre class="cmd" style="margin-top:auto;background:rgba(255,255,255,.16)">gateway connected
 message accepted
 response delivered</pre>
@@ -1948,7 +1947,7 @@ hermes gateway status</pre>
           </div>
           <div style="display:grid;grid-template-columns:auto 1fr;gap:2vw;align-items:start;padding:2.4vh 0;border-top:1px solid var(--border-subtle)">
             <div style="font-family:var(--sans);font-weight:200;font-size:min(4.2vw,7.4vh);line-height:.9">02</div>
-            <div><h3 style="font-size:max(18px,1.65vw);font-weight:400;line-height:1.2;letter-spacing:-.015em;margin-bottom:1vh">Gemini API key 是主線</h3><p class="t-body-sm">Codex 是補充 provider，不是 demo 的唯一依賴。</p></div>
+            <div><h3 style="font-size:max(18px,1.65vw);font-weight:400;line-height:1.2;letter-spacing:-.015em;margin-bottom:1vh">Codex 是主線，Gemini 是備援</h3><p class="t-body-sm">先用 Codex 免費額度；Gemini API key 留作 fallback。</p></div>
           </div>
           <div style="display:grid;grid-template-columns:auto 1fr;gap:2vw;align-items:start;padding:2.4vh 0;border-top:1px solid var(--border-subtle);border-bottom:2px solid var(--accent)">
             <div style="font-family:var(--sans);font-weight:200;font-size:min(4.2vw,7.4vh);line-height:.9;color:var(--accent)">03</div>
@@ -1960,7 +1959,7 @@ hermes gateway status</pre>
     </div>
     <aside class="speaker-notes">
       <p>最後用三個 takeaway 收束，避免大家只記得安裝命令。核心是方法：一條路徑、可觀察、可回復、再擴張。</p>
-      <p>官方來源：Hermes docs、Gemini guide、Telegram/Discord setup、OpenClaw migration guide、OpenClaw docs、Google Compute Engine docs。</p>
+      <p>官方來源：Hermes docs、Codex provider flow、Gemini guide、Telegram/Discord setup、OpenClaw migration guide、OpenClaw docs、Google Compute Engine docs。</p>
     </aside>
   </div>
 </section>
@@ -2191,10 +2190,12 @@ const I18N_TEXT={
   '如果聽眾問「能不能無痛轉移」，回答：persona/memory/skills 可以先 dry-run；gateway runtime 不應該整包搬。':'If someone asks about a painless migration, answer this way: persona, memory, and skills can be dry-run first; gateway runtime should not be moved wholesale.',
   '從乾淨 VM 到手機回覆':'From a clean VM to a phone reply',
   '如果卡住，直接跳到 slide 21 的 recovery ladder。':'If anything gets stuck, jump straight to the recovery ladder on slide 21.',
+  '提醒自己：live demo 一定先準備好 Telegram bot token 和 Codex device login；Gemini API key 作為備援，但不要投影任何 secret。現場只貼 placeholder 或在不投影的終端輸入。':'Speaker reminder: prepare the Telegram bot token and Codex device login before the live demo. Keep the Gemini API key as fallback, but never project any secret. Paste placeholders or type them in a non-projected terminal.',
   '提醒自己：live demo 一定先準備好 Telegram bot token 和 Gemini API key，但不要投影 secret。現場只貼 placeholder 或在不投影的終端輸入。':'Speaker reminder: prepare the Telegram bot token and Gemini API key before the live demo, but never project secrets. Paste placeholders or type them in a non-projected terminal.',
   '如果 VM 建立或 install 太慢，用這頁繼續講流程，不要讓觀眾看進度條太久。':'If VM creation or installation is slow, keep narrating the flow from this slide instead of making the audience watch a progress bar.',
   'GCE 前置檢查':'GCE pre-flight checks',
   '選定專案，避免 demo 資源散落到錯的 billing account。':'Choose the project so demo resources do not land under the wrong billing account.',
+  'Codex 免費額度可降低 demo 成本；GCE VM 與 Gemini 備援仍要確認費用來源。':'Codex free quota can lower demo cost; still confirm the billing source for the GCE VM and Gemini fallback.',
   'Gemini API key 與 GCE VM 都需要明確知道費用來源。':'Both the Gemini API key and the GCE VM need a clear billing source.',
   '先啟用 Compute Engine API，建立 VM 才不會中斷。':'Enable the Compute Engine API first so VM creation does not stop mid-demo.',
   'Console SSH 或 `gcloud compute ssh` 都可；先確認登入方式。':'Console SSH or `gcloud compute ssh` both work; confirm the login path first.',
@@ -2233,19 +2234,33 @@ const I18N_TEXT={
   'CLI 成功後，才進 Telegram 或 Discord。':'Move to Telegram or Discord only after the CLI works.',
   '官方 quickstart 的重點是：如果 Hermes 不能完成一般聊天，就不要加 gateway、cron、skills。這一頁是整場 demo 的節奏控制。':'The quickstart principle is simple: if Hermes cannot handle normal chat, do not add gateway, cron, or skills. This slide controls the whole demo rhythm.',
   '現場可以用一句 prompt：`Check the current directory and tell me what looks like the main project file.`':'Use one prompt live: `Check the current directory and tell me what looks like the main project file.`',
+  '優先使用 Codex，因為有可用免費額度。':'Use Codex first because free quota is available.',
   'Hermes native `gemini` provider，使用 Google AI Studio / Gemini API。':'Hermes native `gemini` provider using Google AI Studio / Gemini API.',
   '環境變數：`GOOGLE_API_KEY` 或 `GEMINI_API_KEY`。':'Environment variable: `GOOGLE_API_KEY` or `GEMINI_API_KEY`.',
+  '適合作為 Codex 不可用時的備援 provider。':'Good as a fallback provider when Codex is unavailable.',
+  '長時間工具呼叫仍要確認 quota 與 billing。':'For long tool calls, still verify quota and billing.',
   '適合正式 demo 與持續 agent sessions。':'Good for formal demos and persistent agent sessions.',
   'billing-enabled project 較適合長時間工具呼叫。':'A billing-enabled project is better for longer tool calls.',
   '透過 `hermes model` 選 OpenAI Codex，依 device-code flow 登入。':'Select OpenAI Codex through `hermes model` and sign in with the device-code flow.',
   '不需要在 VM 上手動安裝 Codex CLI。':'No need to manually install Codex CLI on the VM.',
   '適合作為切換模型與比較體驗的補充。':'Useful as a secondary path for switching models and comparing experience.',
   '現場注意 OAuth code 不要投影給觀眾。':'Make sure the OAuth code is not projected to the audience.',
-  '建議把 Gemini 當主線，因為 API key provider 是官方最低風險路徑。Codex 是第二條可示範的 provider path。':'Use Gemini as the main path because the API-key provider is the lowest-risk official path. Codex is a second provider path to demonstrate.',
+  '建議把 Codex 當主線，因為現場可以善用可用免費額度；Gemini API key 留作備援，避免 Codex quota、OAuth 或區域因素卡住整場 demo。':'Use Codex as the main path because the workshop can take advantage of available free quota. Keep the Gemini API key as fallback so Codex quota, OAuth, or regional issues do not block the whole demo.',
+  '不要在投影片中放真實 key，也不要投影 OAuth code。Gemini 備援可用 `hermes model` 互動式輸入，不要把 key 寫進 shell history。':'Do not put real keys in the slides, and do not project OAuth codes. For Gemini fallback, use interactive `hermes model` input and avoid writing keys into shell history.',
   '不要在投影片中放真實 key，也不要示範把 key 寫到 shell history 的壞習慣；現場可用 `hermes model` 互動式輸入。':'Do not put real keys in slides, and do not demonstrate the bad habit of writing keys into shell history. Use interactive `hermes model` input live.',
+  '開啟登入 URL，輸入一次性 code；不要投影 code。':'Open the login URL and enter the one-time code; do not project the code.',
+  '先使用 Codex 可用免費額度，降低 workshop 前期成本。':'Use available Codex free quota first to reduce early workshop cost.',
+  '若 auth 或 quota 不對，`hermes doctor` 先看診斷。':'If auth or quota is wrong, start with `hermes doctor` diagnostics.',
+  '這頁是新的主線：先用 Codex，因為有免費額度可以支撐 workshop demo。提醒自己 OAuth device code 不要投影，登入畫面可以切到非投影螢幕。':'This is the new main path: start with Codex because free quota can support the workshop demo. Remind yourself not to project the OAuth device code; move the login surface to a non-projected screen.',
+  '如果 Codex auth、quota 或網路限制卡住，不要現場硬修太久；直接切到下一頁的 Gemini API key 備援路線。':'If Codex auth, quota, or network restrictions block the demo, do not debug too long on stage; switch to the Gemini API key fallback on the next slide.',
   'Google AI Studio 建立 API key，綁定可用 project。':'Create an API key in Google AI Studio and bind it to an available project.',
+  '使用 `GOOGLE_API_KEY` 或 `GEMINI_API_KEY`，只放 placeholder。':'Use `GOOGLE_API_KEY` or `GEMINI_API_KEY`, with placeholders only.',
   '`hermes model` → Google AI Studio / Gemini。':'`hermes model` → Google AI Studio / Gemini.',
   '用 picker 當下列出的可用 Gemini model，不硬背舊 model id。':'Use the Gemini models currently shown by the picker; do not memorize stale model IDs.',
+  'Codex 卡住時再切，不要一開始就做多 provider fallback maze。':'Switch only if Codex gets stuck; do not start with a multi-provider fallback maze.',
+  'API key 不投影、不截圖、不寫進 shell history。':'Do not project, screenshot, or write API keys into shell history.',
+  'Gemini 現在是備援，不是第一條 demo path。它的價值是 API key provider 簡單、可控，當 Codex quota 或 OAuth 卡住時可以救場。':'Gemini is now the fallback, not the first demo path. Its value is a simple, controllable API-key provider that can rescue the demo if Codex quota or OAuth gets stuck.',
+  '官方文件說 native Gemini provider 會把 Hermes 的 OpenAI-shaped loop 轉成 Gemini native `generateContent`；但現場仍要注意 quota、billing 與 model availability。':'The docs say the native Gemini provider maps Hermes’s OpenAI-shaped loop into Gemini native `generateContent`; on stage, still watch quota, billing, and model availability.',
   '若 key tier 或 quota 不對，`hermes doctor` 先看診斷。':'If the key tier or quota is wrong, start with `hermes doctor` diagnostics.',
   '官方文件說 native Gemini provider 會把 Hermes 的 OpenAI-shaped loop 轉成 Gemini native `generateContent`。這是為什麼我們選 API key provider。':'The docs say the native Gemini provider maps Hermes’s OpenAI-shaped loop into Gemini native `generateContent`. That is why we choose the API-key provider.',
   '如果出現 quota 或 model not found，就回到 `hermes model` 重新選當下可用模型。':'If you hit quota or model-not-found errors, return to `hermes model` and pick a currently available model.',
@@ -2273,7 +2288,7 @@ const I18N_TEXT={
   '如果要 production 才談 service。今天不需要 webhook URL，也不需要開 firewall。':'Talk about services only for production. Today we do not need a webhook URL or firewall changes.',
   '成功與失敗都要看得懂':'Make success and failure observable',
   '手機收到 Hermes 回覆':'The phone receives a Hermes reply',
-  'Gateway log 顯示 Telegram connected；Hermes 使用已選定的 Gemini provider；回覆內容可以驗證 VM 狀態。':'Gateway logs show Telegram connected; Hermes uses the selected Gemini provider; the reply can verify VM state.',
+  'Gateway log 顯示 Telegram connected；Hermes 使用已選定的 Codex provider；回覆內容可以驗證 VM 狀態。':'Gateway logs show Telegram connected; Hermes uses the selected Codex provider; the reply can verify VM state.',
   '先分清是哪一層壞':'First identify which layer failed',
   'Bot token、allowed users、provider key、model quota、session state 都可能造成「看起來沒回」。不要猜。':'Bot token, allowed users, provider key, model quota, and session state can all look like “no reply.” Do not guess.',
   '成功時不要只說「它好了」，要指出可觀察證據：gateway connected、message accepted、response delivered。':'When it succeeds, do not just say “it works.” Point to observable evidence: gateway connected, message accepted, response delivered.',
@@ -2308,11 +2323,12 @@ const I18N_TEXT={
   '先用 GCE 跑通一條 Hermes 路徑，再決定 gateway、migration、production 化。':'Get one Hermes path working on GCE, then decide gateway, migration, and production hardening.',
   '先跑通 CLI，再接 Gateway':'Get CLI working before Gateway',
   '模型與工具未穩前，不加 Telegram/Discord。':'Do not add Telegram/Discord before models and tools are stable.',
-  'Gemini API key 是主線':'Gemini API key is the main path',
-  'Codex 是補充 provider，不是 demo 的唯一依賴。':'Codex is a supplemental provider, not the demo’s only dependency.',
+  'Codex 是主線，Gemini 是備援':'Codex is the main path; Gemini is fallback',
+  '先用 Codex 免費額度；Gemini API key 留作 fallback。':'Use Codex free quota first; keep the Gemini API key as fallback.',
   '比較不是替換，遷移先 dry-run':'Comparison is not replacement; migration starts with dry-run',
   'memory、skills、runtime state 要分開處理。':'Handle memory, skills, and runtime state separately.',
   '最後用三個 takeaway 收束，避免大家只記得安裝命令。核心是方法：一條路徑、可觀察、可回復、再擴張。':'Close with three takeaways so people remember the method, not only install commands: one path, observable, recoverable, then expand.',
+  '官方來源：Hermes docs、Codex provider flow、Gemini guide、Telegram/Discord setup、OpenClaw migration guide、OpenClaw docs、Google Compute Engine docs。':'Official sources: Hermes docs, Codex provider flow, Gemini guide, Telegram/Discord setup, OpenClaw migration guide, OpenClaw docs, and Google Compute Engine docs.',
   '官方來源：Hermes docs、Gemini guide、Telegram/Discord setup、OpenClaw migration guide、OpenClaw docs、Google Compute Engine docs。':'Official sources: Hermes docs, Gemini guide, Telegram/Discord setup, OpenClaw migration guide, OpenClaw docs, and Google Compute Engine docs.'
 };
 

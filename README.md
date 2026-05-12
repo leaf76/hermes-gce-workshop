@@ -1,6 +1,6 @@
 # Hermes Agent GCE Workshop
 
-Single-file bilingual workshop deck for running Hermes Agent on Google Compute Engine and connecting it to Telegram or Discord.
+Single-file bilingual workshop deck for running Hermes Agent on Google Compute Engine, prioritizing ChatGPT Codex as the first model path with Gemini API as fallback, and connecting it to Telegram or Discord.
 
 ## View
 
