@@ -1494,17 +1494,17 @@
       <div class="t-meta">PRE-FLIGHT</div>
       <h2 data-slide-title class="h-xl-zh" style="font-size:min(5.2vw,9.1vh)">GCE 前置檢查</h2>
     </div>
-    <div class="sub-grid-3-2" data-anim="up">
-      <div class="sub-card"><div class="nb-corner">01</div><div class="ttl">Project</div><div class="desc">選定專案，避免 demo 資源散落到錯的 billing account。</div></div>
-      <div class="sub-card"><div class="nb-corner">02</div><div class="ttl">Billing</div><div class="desc">Codex 免費額度可降低 demo 成本；GCE VM 與 Gemini 備援仍要確認費用來源。</div></div>
+    <div class="sub-grid-3-2" data-anim="up" style="margin-bottom:calc(var(--nav-safe-bottom) * .45)">
+      <div class="sub-card"><div class="nb-corner">01</div><div class="ttl">Project</div><div class="desc">使用 throwaway project，不把 demo VM 放進 production billing。</div></div>
+      <div class="sub-card"><div class="nb-corner">02</div><div class="ttl">Billing</div><div class="desc">先設 budget alert；GCE VM、Cloud NAT、Gemini fallback 都會有成本。</div></div>
       <div class="sub-card accent"><div class="nb-corner">03</div><div class="ttl">Compute API</div><div class="desc">先啟用 Compute Engine API，建立 VM 才不會中斷。</div></div>
-      <div class="sub-card"><div class="nb-corner">04</div><div class="ttl">SSH</div><div class="desc">Console SSH 或 `gcloud compute ssh` 都可；先確認登入方式。</div></div>
+      <div class="sub-card"><div class="nb-corner">04</div><div class="ttl">Cloud Shell</div><div class="desc">先設 PROJECT_ID、ZONE、REGION、VM_NAME，避免重開 shell 後變數消失。</div></div>
       <div class="sub-card"><div class="nb-corner">05</div><div class="ttl">Secrets</div><div class="desc">API key、bot token 用 password manager 或非投影輸入。</div></div>
-      <div class="sub-card"><div class="nb-corner">06</div><div class="ttl">Fallback</div><div class="desc">準備半 live 路線：若建 VM 慢，就切到已準備環境。</div></div>
+      <div class="sub-card"><div class="nb-corner">06</div><div class="ttl">Fallback</div><div class="desc">Compute API、IAP、Cloud NAT 都先確認，建 VM 才不會卡住。</div></div>
     </div>
     <aside class="speaker-notes">
-      <p>Google 官方建立 Linux VM 流程會要求 project、billing、Compute Engine API。這頁只做檢查清單，不展開 IAM 細節。</p>
-      <p>講清楚 demo 不會開 production bot，也不會把 secrets 放進 repo 或投影片。</p>
+      <p>實際 rehearsal 先在 Cloud Shell 跑 `gcloud config get-value project` 和 `gcloud services list --enabled --filter="compute.googleapis.com"`。重開 Cloud Shell 後要重新設定 PROJECT_ID、ZONE、REGION、VM_NAME。</p>
+      <p>這頁不放真實 project ID；講義只講 throwaway project、billing boundary、Compute API enabled。講清楚 demo 不會開 production bot，也不會把 secrets 放進 repo 或投影片。</p>
     </aside>
   </div>
 </section>
@@ -1517,20 +1517,20 @@
       <h2 data-slide-title class="h-xl-zh" style="font-size:min(5.2vw,9.1vh)">建 VM 與 SSH</h2>
     </div>
     <div class="timeline-v compact" data-anim="up" style="margin-top:3vh">
-      <div class="tl-node accent"><span class="dot"></span><div class="yr">01</div><div class="multi">Ubuntu</div><div class="desc">Boot disk 選 Ubuntu 24.04 LTS；demo 以 Linux path 為主。</div></div>
-      <div class="tl-node"><span class="dot"></span><div class="yr">02</div><div class="multi">e2</div><div class="desc">機型預設 `e2-medium`，足夠跑 install、CLI、gateway。</div></div>
-      <div class="tl-node"><span class="dot"></span><div class="yr">03</div><div class="multi">20GB</div><div class="desc">Boot disk 20GB 起步，避免套件與 cache 太快滿。</div></div>
-      <div class="tl-node"><span class="dot"></span><div class="yr">04</div><div class="multi">SSH</div><div class="desc">Console SSH 最直覺；`gcloud compute ssh` 適合重複 demo。</div></div>
+      <div class="tl-node accent"><span class="dot"></span><div class="yr">01</div><div class="multi">Ubuntu</div><div class="desc">Ubuntu 24.04 LTS；e2-medium、20GB boot disk。</div></div>
+      <div class="tl-node"><span class="dot"></span><div class="yr">02</div><div class="multi">No IP</div><div class="desc">VM 可不給 external IP，SSH 走 IAP tunnel。</div></div>
+      <div class="tl-node"><span class="dot"></span><div class="yr">03</div><div class="multi">Tag</div><div class="desc">IAP firewall rule 要套到 target tag，例如 hermes-rehearsal。</div></div>
+      <div class="tl-node"><span class="dot"></span><div class="yr">04</div><div class="multi">NAT</div><div class="desc">Installer 需要 outbound；無 external IP 時用 Cloud NAT。</div></div>
     </div>
     <div class="kpi-row-4 nav-clear" style="margin-top:auto">
-      <div class="kpi-cell"><div class="lbl">Firewall</div><div class="nb">0</div><div class="note">Telegram / Discord polling 不需要 inbound HTTP。</div></div>
+      <div class="kpi-cell"><div class="lbl">IAP</div><div class="nb">22</div><div class="note">35.235.240.0/20 -> tcp:22。</div></div>
       <div class="kpi-cell"><div class="lbl">OS</div><div class="nb">24.04</div><div class="note">Ubuntu LTS baseline。</div></div>
       <div class="kpi-cell"><div class="lbl">Machine</div><div class="nb">e2</div><div class="note">可依預算縮放。</div></div>
-      <div class="kpi-cell"><div class="lbl">Disk</div><div class="nb">20<span class="unit">GB</span></div><div class="note">demo baseline。</div></div>
+      <div class="kpi-cell"><div class="lbl">Egress</div><div class="nb">NAT</div><div class="note">沒有 public IP 也能下載套件。</div></div>
     </div>
     <aside class="speaker-notes">
-      <p>Google 官方 quickstart 建議 Ubuntu 24.04 LTS，建立後可用 Console SSH。這裡不開 HTTP traffic，因為今天的 Telegram/Discord demo 都是 gateway 主動連外。</p>
-      <p>如果有人問 production：可再討論 OS Login、service account、IAP、logging，但今天先聚焦可跑通 baseline。</p>
+      <p>Rehearsal 真正卡點是：VM 沒 external IP 時，`gcloud compute ssh` 會 default to IAP tunneling；若看到 `failed to connect to backend`，先確認 target tag 和 firewall rule `35.235.240.0/20 -> tcp:22`。</p>
+      <p>第二個卡點是 outbound。SSH 成功不代表 VM 能 curl GitHub；installer 卡住時先用 `curl -I --max-time 20 https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/install.sh` 測試，必要時建 Cloud Router + Cloud NAT。</p>
     </aside>
   </div>
 </section>
@@ -1542,14 +1542,14 @@
       <div style="width:80px;height:2px;background:var(--accent)"></div>
       <h2 data-slide-title class="h-xl-zh" style="font-size:min(5.3vw,9.3vh)">安全基線</h2>
     </div>
-    <div data-anim="up" style="display:grid;grid-template-columns:repeat(4,1fr);gap:1.4vw;flex:1;margin-top:6vh">
+    <div data-anim="up" style="display:grid;grid-template-columns:repeat(4,1fr);gap:1.4vw;flex:1;margin-top:6vh;margin-bottom:calc(var(--nav-safe-bottom) * .45)">
       <div class="card-fill" style="padding:2.4vh 1.5vw;display:flex;flex-direction:column"><div class="t-meta">— 01</div><h3 class="t-h-prod" style="font-size:26px;margin-top:2vh">不投影 secrets</h3><p class="t-body-sm" style="margin-top:auto">API key、bot token、OAuth code 都在非投影畫面處理。</p></div>
-      <div class="card-fill" style="padding:2.4vh 1.5vw;display:flex;flex-direction:column"><div class="t-meta">— 02</div><h3 class="t-h-prod" style="font-size:26px;margin-top:2vh">不開不必要 ports</h3><p class="t-body-sm" style="margin-top:auto">Telegram/Discord polling 只需要 outbound。</p></div>
-      <div class="card-fill" style="padding:2.4vh 1.5vw;display:flex;flex-direction:column"><div class="t-meta">— 03</div><h3 class="t-h-prod" style="font-size:26px;margin-top:2vh">最小權限</h3><p class="t-body-sm" style="margin-top:auto">VM service account 不為 demo 加廣泛 cloud 權限。</p></div>
+      <div class="card-fill" style="padding:2.4vh 1.5vw;display:flex;flex-direction:column"><div class="t-meta">— 02</div><h3 class="t-h-prod" style="font-size:26px;margin-top:2vh">只走 IAP SSH</h3><p class="t-body-sm" style="margin-top:auto">不給 external IP；只允許 IAP 到 tcp:22。</p></div>
+      <div class="card-fill" style="padding:2.4vh 1.5vw;display:flex;flex-direction:column"><div class="t-meta">— 03</div><h3 class="t-h-prod" style="font-size:26px;margin-top:2vh">Cloud NAT</h3><p class="t-body-sm" style="margin-top:auto">outbound 下載套件走 NAT，不開 HTTP/HTTPS inbound。</p></div>
       <div class="card-fill" style="padding:2.4vh 1.5vw;display:flex;flex-direction:column"><div class="t-meta">— 04</div><h3 class="t-h-prod" style="font-size:26px;margin-top:2vh">可清理</h3><p class="t-body-sm" style="margin-top:auto">結束後停 VM 或刪除 demo 資源，避免持續計費。</p></div>
     </div>
     <aside class="speaker-notes">
-      <p>把安全當成 demo 的一部分：不只是「不要洩漏 key」，還包含不要為了方便把 VM 暴露到 internet。</p>
+      <p>安全基線改成實際 rehearsal route：VM 沒 external IP、SSH 走 IAP、只開 tcp:22 給 35.235.240.0/20、outbound 用 Cloud NAT。這比臨時加 public IP 更接近安全示範。</p>
       <p>這也呼應 Hermes/OpenClaw 的比較：gateway 很方便，但入口越多，allowlist 與 pairing 越重要。</p>
     </aside>
   </div>
@@ -1577,7 +1577,8 @@
     </div>
     <aside class="speaker-notes">
       <p>官方 installer 會處理 uv、Python、Node、ripgrep、ffmpeg 等依賴。現場講一句即可，不要把時間花在套件細節。</p>
-      <p>安裝後第一個 troubleshooting command 是 `hermes doctor`，這會成為後面 recovery ladder 的第一步。</p>
+      <p>如果 installer 在 `curl raw.githubusercontent.com` 卡住，不先怪 Hermes；先判斷 VM 是否有 outbound internet。沒有 external IP 時用 Cloud NAT，或切到已有 egress 的預備 VM。</p>
+      <p>成功基準是 installer 完成後 `source ~/.bashrc`，再跑 `hermes doctor`；任何錯誤都帶到 slide 21。</p>
     </aside>
   </div>
 </section>
@@ -1738,20 +1739,20 @@ hermes chat</pre>
       <h2 data-slide-title class="h-xl-zh" style="font-size:min(5.2vw,9.1vh)">Telegram setup</h2>
     </div>
     <div class="timeline-v compact" data-anim="up" style="margin-top:3vh">
-      <div class="tl-node accent"><span class="dot"></span><div class="yr">01</div><div class="multi">BotFather</div><div class="desc">建立 bot，拿到 token；token 只在安全輸入畫面處理。</div></div>
+      <div class="tl-node accent"><span class="dot"></span><div class="yr">01</div><div class="multi">BotFather</div><div class="desc">建立 bot；token 若曾曝光，先 revoke 再重生。</div></div>
       <div class="tl-node"><span class="dot"></span><div class="yr">02</div><div class="multi">User ID</div><div class="desc">用 Telegram user ID 做 allowlist，不用 username 當權限邊界。</div></div>
-      <div class="tl-node"><span class="dot"></span><div class="yr">03</div><div class="multi">Setup</div><div class="desc">`hermes gateway setup` 選 Telegram，填 token 和 allowed users。</div></div>
-      <div class="tl-node"><span class="dot"></span><div class="yr">04</div><div class="multi">Test</div><div class="desc">啟動 gateway，從手機傳一個簡單可驗證 prompt。</div></div>
+      <div class="tl-node"><span class="dot"></span><div class="yr">03</div><div class="multi">Config</div><div class="desc">polling 主線：寫進 ~/.hermes/.env，不靠沒 export 的 shell 變數。</div></div>
+      <div class="tl-node"><span class="dot"></span><div class="yr">04</div><div class="multi">Polling</div><div class="desc">不走 webhook/ngrok；啟動 gateway 後從手機發 prompt。</div></div>
     </div>
     <div class="kpi-row-4 nav-clear" style="margin-top:auto">
-      <div class="kpi-cell"><div class="lbl">Mode</div><div class="nb">Polling</div><div class="note">預設適合 always-on VM。</div></div>
+      <div class="kpi-cell"><div class="lbl">Mode</div><div class="nb">Polling</div><div class="note">不需要 HTTPS URL。</div></div>
       <div class="kpi-cell"><div class="lbl">Auth</div><div class="nb">ID</div><div class="note">Allowed users / chats。</div></div>
-      <div class="kpi-cell"><div class="lbl">Group</div><div class="nb">Privacy</div><div class="note">群組要注意 BotFather privacy。</div></div>
-      <div class="kpi-cell"><div class="lbl">Home</div><div class="nb">/sethome</div><div class="note">cron output 可送到 home channel。</div></div>
+      <div class="kpi-cell"><div class="lbl">Env</div><div class="nb">.env</div><div class="note">~/.hermes/.env。</div></div>
+      <div class="kpi-cell"><div class="lbl">Service</div><div class="nb">bg</div><div class="note">install / start / status。</div></div>
     </div>
     <aside class="speaker-notes">
-      <p>官方 Telegram docs 的最短路徑：BotFather token、numeric user ID、`hermes gateway setup`、`hermes gateway`。</p>
-      <p>群組情境要補：privacy mode 預設 ON，只看到 commands、reply、service messages；必要時要關 privacy 或 promote admin，且移除再加回群組。</p>
+      <p>這次實際跑通的是 polling，不是 webhook。Webhook 需要公開 HTTPS URL；workshop 最短路徑是 polling，所以不需要 ngrok，也不需要 HTTP/HTTPS firewall。</p>
+      <p>token 不要貼到聊天；若曾曝光就 BotFather revoke。TELEGRAM_ALLOWED_USERS 用 numeric user ID。shell 直接打 TELEGRAM_BOT_TOKEN=... 沒有 export 時 Hermes 讀不到，建議寫入 ~/.hermes/.env。</p>
     </aside>
   </div>
 </section>
@@ -1761,24 +1762,28 @@ hermes chat</pre>
     <div class="chrome-min"><div class="l">18 / 24 · Telegram Live</div><div class="r">Commands</div></div>
     <div data-anim="ledger" style="display:flex;flex-direction:column;gap:0;flex:1">
       <div class="ledger-row" style="display:grid;grid-template-columns:3.1fr 5.3fr 1fr;gap:2vw;align-items:center;border-bottom:1px solid rgba(255,255,255,.18);padding:2.4vh 0">
-        <div class="ledger-num" style="font-family:var(--sans);font-weight:200;font-size:min(5.4vw,9.4vh)">Setup</div>
-        <div class="ledger-label"><div class="t-meta">INTERACTIVE PLATFORM CONFIG</div><pre class="cmd" style="margin-top:1.2vh">hermes gateway setup</pre></div>
-        <i class="ledger-icon" data-lucide="settings-2"></i>
+        <div class="ledger-num" style="font-family:var(--sans);font-weight:200;font-size:min(5.4vw,9.4vh)">Env</div>
+        <div class="ledger-label"><div class="t-meta">POLLING CONFIG</div><pre class="cmd" style="margin-top:1.2vh">nano ~/.hermes/.env
+TELEGRAM_BOT_TOKEN=...
+TELEGRAM_ALLOWED_USERS=...</pre></div>
+        <i class="ledger-icon" data-lucide="file-lock-2"></i>
       </div>
       <div class="ledger-row" style="display:grid;grid-template-columns:3.1fr 5.3fr 1fr;gap:2vw;align-items:center;border-bottom:1px solid rgba(255,255,255,.18);padding:2.4vh 0">
-        <div class="ledger-num" style="font-family:var(--sans);font-weight:200;font-size:min(5.4vw,9.4vh)">Start</div>
-        <div class="ledger-label"><div class="t-meta">FOREGROUND FOR DEMO</div><pre class="cmd" style="margin-top:1.2vh">hermes gateway</pre></div>
+        <div class="ledger-num" style="font-family:var(--sans);font-weight:200;font-size:min(5.4vw,9.4vh)">Run</div>
+        <div class="ledger-label"><div class="t-meta">FOREGROUND LOG CHECK</div><pre class="cmd" style="margin-top:1.2vh">hermes gateway run</pre></div>
         <i class="ledger-icon" data-lucide="radio"></i>
       </div>
       <div class="ledger-row" style="display:grid;grid-template-columns:3.1fr 5.3fr 1fr;gap:2vw;align-items:center;border-bottom:1px solid rgba(255,255,255,.18);padding:2.4vh 0">
-        <div class="ledger-num" style="font-family:var(--sans);font-weight:200;font-size:min(5.4vw,9.4vh)">Ask</div>
-        <div class="ledger-label"><div class="t-meta">PHONE PROMPT</div><pre class="cmd" style="margin-top:1.2vh">請用 3 點說明這台 VM 正在跑什麼。</pre></div>
-        <i class="ledger-icon" data-lucide="message-circle"></i>
+        <div class="ledger-num" style="font-family:var(--sans);font-weight:200;font-size:min(5.4vw,9.4vh)">Service</div>
+        <div class="ledger-label"><div class="t-meta">BACKGROUND AFTER SUCCESS</div><pre class="cmd" style="margin-top:1.2vh">hermes gateway install
+hermes gateway start
+hermes gateway status</pre></div>
+        <i class="ledger-icon" data-lucide="badge-check"></i>
       </div>
     </div>
     <aside class="speaker-notes">
-      <p>現場 foreground 跑 `hermes gateway` 比裝 service 更好看，因為 log 可以直接說明是否 connected。</p>
-      <p>如果要 production 才談 service。今天不需要 webhook URL，也不需要開 firewall。</p>
+      <p>foreground run 先看 banner/log，確認 Telegram configured、allowed users 正確、手機 prompt 有回覆；再放背景。</p>
+      <p>背景服務成功後再用 `hermes config check`、`hermes status`、`hermes doctor` 確認。不要把 `.env` 內容投影。</p>
     </aside>
   </div>
 </section>
@@ -1855,7 +1860,7 @@ hermes gateway status</pre>
         <div class="th-node down"><span class="dot"></span><div class="label"><div class="yr">06</div><div class="name">platform</div><div class="desc">bot/intents</div></div></div>
       </div>
     </div>
-    <pre class="cmd light" style="margin-top:auto">hermes doctor
+    <pre class="cmd light" style="margin-top:auto;margin-bottom:calc(var(--nav-safe-bottom) * .45)">hermes doctor
 hermes model
 hermes setup
 hermes sessions list
@@ -1863,7 +1868,8 @@ hermes --continue
 hermes gateway status</pre>
     <aside class="speaker-notes">
       <p>這頁是 live demo 失敗時的救援頁。照順序走，不要在同一分鐘內同時改 provider、gateway 和 bot 設定。</p>
-      <p>對混合受眾說：這個 ladder 的價值是把「沒回覆」拆成可檢查的層。</p>
+      <p>GCP networking 先分開看：IAP SSH `failed to connect to backend` 不是 Hermes 壞掉，檢查 VM tag、firewall rule `35.235.240.0/20 -> tcp:22`；installer curl 卡住也不是 Hermes 壞掉，檢查 outbound，必要時 Cloud NAT。</p>
+      <p>對混合受眾說：這個 ladder 的價值是把「沒回覆」拆成可檢查的層。不要同時改 GCP network、provider 和 Telegram token。</p>
     </aside>
   </div>
 </section>
@@ -2199,36 +2205,57 @@ const I18N_TEXT={
   '如果 VM 建立或 install 太慢，用這頁繼續講流程，不要讓觀眾看進度條太久。':'If VM creation or installation is slow, keep narrating the flow from this slide instead of making the audience watch a progress bar.',
   'GCE 前置檢查':'GCE pre-flight checks',
   '選定專案，避免 demo 資源散落到錯的 billing account。':'Choose the project so demo resources do not land under the wrong billing account.',
+  '使用 throwaway project，不把 demo VM 放進 production billing。':'Use a throwaway project; do not place the demo VM under production billing.',
   'Codex 免費額度可降低 demo 成本；GCE VM 與 Gemini 備援仍要確認費用來源。':'Codex free quota can lower demo cost; still confirm the billing source for the GCE VM and Gemini fallback.',
+  '先設 budget alert；GCE VM、Cloud NAT、Gemini fallback 都會有成本。':'Set a budget alert first; the GCE VM, Cloud NAT, and Gemini fallback can all incur cost.',
   'Gemini API key 與 GCE VM 都需要明確知道費用來源。':'Both the Gemini API key and the GCE VM need a clear billing source.',
   '先啟用 Compute Engine API，建立 VM 才不會中斷。':'Enable the Compute Engine API first so VM creation does not stop mid-demo.',
   'Console SSH 或 `gcloud compute ssh` 都可；先確認登入方式。':'Console SSH or `gcloud compute ssh` both work; confirm the login path first.',
+  '先設 PROJECT_ID、ZONE、REGION、VM_NAME，避免重開 shell 後變數消失。':'Set PROJECT_ID, ZONE, REGION, and VM_NAME first so variables do not disappear after reopening the shell.',
   'API key、bot token 用 password manager 或非投影輸入。':'Handle API keys and bot tokens through a password manager or a non-projected input.',
   '準備半 live 路線：若建 VM 慢，就切到已準備環境。':'Prepare a semi-live path: if VM creation is slow, switch to a prepared environment.',
+  'Compute API、IAP、Cloud NAT 都先確認，建 VM 才不會卡住。':'Confirm Compute API, IAP, and Cloud NAT first so VM creation does not get stuck.',
   'Google 官方建立 Linux VM 流程會要求 project、billing、Compute Engine API。這頁只做檢查清單，不展開 IAM 細節。':'Google’s Linux VM flow requires project, billing, and Compute Engine API setup. This slide is only a checklist; do not expand into IAM details.',
   '講清楚 demo 不會開 production bot，也不會把 secrets 放進 repo 或投影片。':'Make it clear that the demo will not use a production bot and will not put secrets into the repo or slides.',
-  '建 VM 與 SSH':'Create the VM and SSH in',
+  '實際 rehearsal 先在 Cloud Shell 跑 `gcloud config get-value project` 和 `gcloud services list --enabled --filter="compute.googleapis.com"`。重開 Cloud Shell 後要重新設定 PROJECT_ID、ZONE、REGION、VM_NAME。':'In the actual rehearsal, start in Cloud Shell with `gcloud config get-value project` and `gcloud services list --enabled --filter="compute.googleapis.com"`. After reopening Cloud Shell, set PROJECT_ID, ZONE, REGION, and VM_NAME again.',
+  '這頁不放真實 project ID；講義只講 throwaway project、billing boundary、Compute API enabled。講清楚 demo 不會開 production bot，也不會把 secrets 放進 repo 或投影片。':'Do not put the real project ID on this slide. The handout only covers a throwaway project, billing boundary, and Compute API enabled. Make clear that the demo does not use a production bot or put secrets in the repo or slides.',
+  '建 VM 與 SSH':'Create VM and connect over SSH',
   'Boot disk 選 Ubuntu 24.04 LTS；demo 以 Linux path 為主。':'Use Ubuntu 24.04 LTS for the boot disk; the demo assumes Linux paths.',
+  'Ubuntu 24.04 LTS；e2-medium、20GB boot disk。':'Ubuntu 24.04 LTS, e2-medium, and a 20GB boot disk.',
   '機型預設 `e2-medium`，足夠跑 install、CLI、gateway。':'Use `e2-medium` by default; it is enough for install, CLI, and gateway.',
+  'VM 可不給 external IP，SSH 走 IAP tunnel。':'The VM can run without an external IP; SSH goes through an IAP tunnel.',
   'Boot disk 20GB 起步，避免套件與 cache 太快滿。':'Start with a 20GB boot disk so packages and cache do not fill it too quickly.',
+  'IAP firewall rule 要套到 target tag，例如 hermes-rehearsal。':'Apply the IAP firewall rule to the target tag, for example hermes-rehearsal.',
   'Console SSH 最直覺；`gcloud compute ssh` 適合重複 demo。':'Console SSH is the easiest path; `gcloud compute ssh` is better for repeated demos.',
+  'Installer 需要 outbound；無 external IP 時用 Cloud NAT。':'The installer needs outbound access; use Cloud NAT when there is no external IP.',
   'Telegram / Discord polling 不需要 inbound HTTP。':'Telegram / Discord polling does not need inbound HTTP.',
+  '35.235.240.0/20 -> tcp:22。':'35.235.240.0/20 -> tcp:22.',
+  'Ubuntu LTS baseline。':'Ubuntu LTS baseline.',
   '可依預算縮放。':'Scale it to fit the budget.',
+  '沒有 public IP 也能下載套件。':'Download packages without a public IP.',
   'Google 官方 quickstart 建議 Ubuntu 24.04 LTS，建立後可用 Console SSH。這裡不開 HTTP traffic，因為今天的 Telegram/Discord demo 都是 gateway 主動連外。':'Google’s quickstart recommends Ubuntu 24.04 LTS, and Console SSH works after creation. We do not enable HTTP traffic here because today’s Telegram/Discord demo connects outbound.',
   '如果有人問 production：可再討論 OS Login、service account、IAP、logging，但今天先聚焦可跑通 baseline。':'If someone asks about production, mention OS Login, service accounts, IAP, and logging as later topics. Today we focus on a working baseline.',
+  'Rehearsal 真正卡點是：VM 沒 external IP 時，`gcloud compute ssh` 會 default to IAP tunneling；若看到 `failed to connect to backend`，先確認 target tag 和 firewall rule `35.235.240.0/20 -> tcp:22`。':'The actual rehearsal blocker was this: when the VM has no external IP, `gcloud compute ssh` defaults to IAP tunneling. If you see `failed to connect to backend`, check the target tag and firewall rule `35.235.240.0/20 -> tcp:22` first.',
+  '第二個卡點是 outbound。SSH 成功不代表 VM 能 curl GitHub；installer 卡住時先用 `curl -I --max-time 20 https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/install.sh` 測試，必要時建 Cloud Router + Cloud NAT。':'The second blocker is outbound access. Successful SSH does not prove the VM can curl GitHub. If the installer hangs, test with `curl -I --max-time 20 https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/install.sh`, then create Cloud Router + Cloud NAT if needed.',
   '安全基線':'Security baseline',
   '不投影 secrets':'Do not project secrets',
   'API key、bot token、OAuth code 都在非投影畫面處理。':'Handle API keys, bot tokens, and OAuth codes off the projected screen.',
   '不開不必要 ports':'Do not open unnecessary ports',
+  '只走 IAP SSH':'IAP SSH only',
+  '不給 external IP；只允許 IAP 到 tcp:22。':'Do not assign an external IP; only allow IAP to tcp:22.',
   'Telegram/Discord polling 只需要 outbound。':'Telegram/Discord polling only needs outbound access.',
+  'outbound 下載套件走 NAT，不開 HTTP/HTTPS inbound。':'Use NAT for outbound package downloads; do not open inbound HTTP/HTTPS.',
   '最小權限':'Least privilege',
   'VM service account 不為 demo 加廣泛 cloud 權限。':'Do not give the VM service account broad cloud permissions for the demo.',
   '可清理':'Easy cleanup',
   '結束後停 VM 或刪除 demo 資源，避免持續計費。':'Stop the VM or delete demo resources afterward to avoid ongoing cost.',
   '把安全當成 demo 的一部分：不只是「不要洩漏 key」，還包含不要為了方便把 VM 暴露到 internet。':'Treat security as part of the demo. It is not only “do not leak keys”; it also means not exposing the VM to the internet for convenience.',
+  '安全基線改成實際 rehearsal route：VM 沒 external IP、SSH 走 IAP、只開 tcp:22 給 35.235.240.0/20、outbound 用 Cloud NAT。這比臨時加 public IP 更接近安全示範。':'Use the real rehearsal route as the security baseline: no external IP on the VM, SSH through IAP, only tcp:22 from 35.235.240.0/20, and outbound through Cloud NAT. This is a better security demonstration than adding a temporary public IP.',
   '這也呼應 Hermes/OpenClaw 的比較：gateway 很方便，但入口越多，allowlist 與 pairing 越重要。':'This also connects to the Hermes/OpenClaw comparison: gateways are convenient, but more entry points make allowlists and pairing more important.',
   '官方 installer 會處理 uv、Python、Node、ripgrep、ffmpeg 等依賴。現場講一句即可，不要把時間花在套件細節。':'The official installer handles dependencies such as uv, Python, Node, ripgrep, and ffmpeg. Say that once; do not spend demo time on package details.',
   '安裝後第一個 troubleshooting command 是 `hermes doctor`，這會成為後面 recovery ladder 的第一步。':'After installation, the first troubleshooting command is `hermes doctor`. It becomes step one in the recovery ladder.',
+  '如果 installer 在 `curl raw.githubusercontent.com` 卡住，不先怪 Hermes；先判斷 VM 是否有 outbound internet。沒有 external IP 時用 Cloud NAT，或切到已有 egress 的預備 VM。':'If the installer hangs at `curl raw.githubusercontent.com`, do not blame Hermes first. Check whether the VM has outbound internet. With no external IP, use Cloud NAT or switch to a prepared VM with egress.',
+  '成功基準是 installer 完成後 `source ~/.bashrc`，再跑 `hermes doctor`；任何錯誤都帶到 slide 21。':'The success baseline is: installer completes, then `source ~/.bashrc`, then `hermes doctor`. Move any error to slide 21.',
   '第一個成功標準':'First success criteria',
   '先選 provider 與 model，確認 credential path 正確。':'Choose the provider and model first, and confirm the credential path.',
   '開一個普通 CLI session，讓 agent 能正常回覆。':'Open a normal CLI session and make sure the agent can respond.',
@@ -2279,17 +2306,28 @@ const I18N_TEXT={
   '用 loop 講 gateway，不要一開始就丟一堆 config。每個平台差異都只是 receive/authorize/session/respond 的不同實作。':'Explain gateway as a loop, not as a pile of config. Platform differences are just different implementations of receive, authorize, session, and respond.',
   'Telegram 的 group privacy、Discord 的 mention policy 都放在 authorize / receive 這一層理解。':'Telegram group privacy and Discord mention policy both fit into the authorize / receive layers.',
   '建立 bot，拿到 token；token 只在安全輸入畫面處理。':'Create the bot and get the token; handle the token only in a safe input surface.',
+  '建立 bot；token 若曾曝光，先 revoke 再重生。':'Create the bot. If the token was exposed, revoke it first and generate a new one.',
   '用 Telegram user ID 做 allowlist，不用 username 當權限邊界。':'Use Telegram user IDs for allowlists; do not use usernames as the security boundary.',
   '`hermes gateway setup` 選 Telegram，填 token 和 allowed users。':'Select Telegram in `hermes gateway setup`, then enter the token and allowed users.',
+  'polling 主線：寫進 ~/.hermes/.env，不靠沒 export 的 shell 變數。':'Polling is the main path: write settings to ~/.hermes/.env instead of relying on non-exported shell variables.',
   '啟動 gateway，從手機傳一個簡單可驗證 prompt。':'Start the gateway and send a simple, verifiable prompt from your phone.',
+  '不走 webhook/ngrok；啟動 gateway 後從手機發 prompt。':'Do not use webhook/ngrok. Start the gateway, then send a prompt from your phone.',
   '預設適合 always-on VM。':'Default fit for an always-on VM.',
+  '不需要 HTTPS URL。':'No HTTPS URL required.',
+  'Allowed users / chats。':'Allowed users / chats.',
   '群組要注意 BotFather privacy。':'Watch BotFather privacy settings in groups.',
+  '~/.hermes/.env。':'~/.hermes/.env.',
+  'install / start / status。':'install / start / status.',
   'cron output 可送到 home channel。':'Cron output can go to the home channel.',
   '官方 Telegram docs 的最短路徑：BotFather token、numeric user ID、`hermes gateway setup`、`hermes gateway`。':'The shortest path in the Telegram docs is BotFather token, numeric user ID, `hermes gateway setup`, and `hermes gateway`.',
   '群組情境要補：privacy mode 預設 ON，只看到 commands、reply、service messages；必要時要關 privacy 或 promote admin，且移除再加回群組。':'For groups, add this caveat: privacy mode is ON by default, so the bot only sees commands, replies, and service messages. If needed, disable privacy or promote admin, then remove and re-add the bot.',
+  '這次實際跑通的是 polling，不是 webhook。Webhook 需要公開 HTTPS URL；workshop 最短路徑是 polling，所以不需要 ngrok，也不需要 HTTP/HTTPS firewall。':'The path that actually worked in rehearsal was polling, not webhook. Webhook requires a public HTTPS URL; the shortest workshop path is polling, so there is no ngrok and no HTTP/HTTPS firewall.',
+  'token 不要貼到聊天；若曾曝光就 BotFather revoke。TELEGRAM_ALLOWED_USERS 用 numeric user ID。shell 直接打 TELEGRAM_BOT_TOKEN=... 沒有 export 時 Hermes 讀不到，建議寫入 ~/.hermes/.env。':'Do not paste the token into chat. If it was exposed, revoke it in BotFather. TELEGRAM_ALLOWED_USERS should use numeric user IDs. If you type TELEGRAM_BOT_TOKEN=... in the shell without export, Hermes will not see it; write it to ~/.hermes/.env instead.',
   '請用 3 點說明這台 VM 正在跑什麼。':'Explain in 3 bullets what this VM is currently running.',
   '現場 foreground 跑 `hermes gateway` 比裝 service 更好看，因為 log 可以直接說明是否 connected。':'Running `hermes gateway` in the foreground is better for a live demo than installing a service, because the log shows whether it is connected.',
   '如果要 production 才談 service。今天不需要 webhook URL，也不需要開 firewall。':'Talk about services only for production. Today we do not need a webhook URL or firewall changes.',
+  'foreground run 先看 banner/log，確認 Telegram configured、allowed users 正確、手機 prompt 有回覆；再放背景。':'Use the foreground run to check the banner/log first. Confirm Telegram is configured, allowed users are correct, and the phone prompt gets a reply; then move it to the background.',
+  '背景服務成功後再用 `hermes config check`、`hermes status`、`hermes doctor` 確認。不要把 `.env` 內容投影。':'After the background service starts successfully, verify with `hermes config check`, `hermes status`, and `hermes doctor`. Do not project the `.env` contents.',
   '成功與失敗都要看得懂':'Make success and failure observable',
   '手機收到 Hermes 回覆':'The phone receives a Hermes reply',
   'Gateway log 顯示 Telegram connected；Hermes 使用已選定的 Codex provider；回覆內容可以驗證 VM 狀態。':'Gateway logs show Telegram connected; Hermes uses the selected Codex provider; the reply can verify VM state.',
@@ -2306,7 +2344,9 @@ const I18N_TEXT={
   '官方 Discord docs 指出 Message Content Intent 是最常見失敗原因；server channels 預設需要 @mention。':'The Discord docs call out Message Content Intent as the most common failure point; server channels require @mentions by default.',
   '環境診斷':'Environment diagnostics',
   '這頁是 live demo 失敗時的救援頁。照順序走，不要在同一分鐘內同時改 provider、gateway 和 bot 設定。':'This is the rescue slide for a failing live demo. Follow the order; do not change provider, gateway, and bot settings in the same minute.',
+  'GCP networking 先分開看：IAP SSH `failed to connect to backend` 不是 Hermes 壞掉，檢查 VM tag、firewall rule `35.235.240.0/20 -> tcp:22`；installer curl 卡住也不是 Hermes 壞掉，檢查 outbound，必要時 Cloud NAT。':'Separate GCP networking first: IAP SSH `failed to connect to backend` is not a Hermes failure. Check the VM tag and firewall rule `35.235.240.0/20 -> tcp:22`. A stuck installer curl is also not a Hermes failure. Check outbound access and add Cloud NAT if needed.',
   '對混合受眾說：這個 ladder 的價值是把「沒回覆」拆成可檢查的層。':'For a mixed audience, say that the value of this ladder is turning “no reply” into checkable layers.',
+  '對混合受眾說：這個 ladder 的價值是把「沒回覆」拆成可檢查的層。不要同時改 GCP network、provider 和 Telegram token。':'For a mixed audience, say that the value of this ladder is turning “no reply” into checkable layers. Do not change GCP networking, provider, and Telegram token at the same time.',
   '先 dry-run，不要整包搬':'Dry-run first. Do not move everything at once.',
   'Hermes 提供 `hermes claw migrate`，可預覽並匯入相容資料。':'Hermes provides `hermes claw migrate` to preview and import compatible data.',
   '部分 provider config、allowlist、skills。':'Some provider config, allowlists, and skills.',
