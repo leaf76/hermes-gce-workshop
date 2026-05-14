@@ -1409,30 +1409,30 @@
     <div class="duo-compare" data-anim="up">
       <div class="col accent">
         <div class="col-tag"><span class="num">H</span> Hermes Agent</div>
-        <div class="col-ttl">Memory becomes reusable agent capability</div>
-        <p class="col-desc">不是 Hermes 才有記憶；差異是它把 memory、skills、cron、fresh sessions 接進同一個 agent loop。</p>
+        <div class="col-ttl">Same capability, shorter agent-work path</div>
+        <p class="col-desc">不是 Hermes 才能做到；差異是 agent work loop 的預設路徑比較短。</p>
         <ul class="col-list">
-          <li>長期記憶不是只存 `MEMORY.md`，還會變成可重用的 skills 與 workflow。</li>
-          <li>GCE demo 主線是 cloud VM 上的 agent brain：模型、工具、cron、gateway 都在 server 跑。</li>
-          <li>比較直的路徑：先跑通 CLI / model / memory，再接 Telegram 或 Discord。</li>
+          <li>memory、skills、cron、model switching 都在同一條 CLI-first workflow 裡。</li>
+          <li>GCE demo 先把 agent 工作腦跑穩，再接 Telegram 或 Discord。</li>
+          <li>若要 OpenClaw 等級 gateway ecosystem，需要補 routing、UI、channel bindings。</li>
         </ul>
       </div>
       <div class="vrule"></div>
       <div class="col">
         <div class="col-tag"><span class="num">O</span> OpenClaw</div>
-        <div class="col-ttl">Also has memory and can run on server</div>
-        <p class="col-desc">OpenClaw 也有長期記憶，也能 self-host；它的強項更偏 gateway、dashboard、nodes 與 channel orchestration。</p>
+        <div class="col-ttl">Same capability, fuller gateway runtime</div>
+        <p class="col-desc">OpenClaw 也能做到 cloud agent、memory、skills、cron；差異是 gateway runtime 預設更完整。</p>
         <ul class="col-list">
-          <li>Memory source of truth 通常是 workspace Markdown、daily notes、`MEMORY.md`。</li>
-          <li>Server 可行；但 cloud 上要另外規劃 dashboard access、auth、nodes、device/media workflows。</li>
-          <li>要同等功能：需逐項補 gateway policy、channel bindings、control UI、nodes、smoke tests。</li>
+          <li>多通道、dashboard、nodes、device/media workflow 是較完整的預設面。</li>
+          <li>若只做 GCE agent brain，需要收斂 gateway/control plane 的管理面。</li>
+          <li>功能可達成，但維運面積、設定面與 smoke test 範圍不同。</li>
         </ul>
       </div>
     </div>
     <aside class="speaker-notes">
-      <p>這頁要先修正一個常見誤解：不能說 Hermes 有記憶、OpenClaw 沒有。OpenClaw 也有 memory，而且用 Markdown 做 source of truth 很透明。Hermes 的差異是 memory 會更緊密地接到 skills、自我改善、cron 與 agent loop，變成長期可重用的工作能力。</p>
-      <p>第二個誤解是 cloud server。OpenClaw 也可以跑在 server；只是它的強項是 single Gateway、dashboard、multi-channel routing、nodes、device/media workflows。這場 GCE demo 的主線是 cloud VM 上長期跑 agent brain，所以 Hermes 的 installation、model、memory、cron、gateway path 比較短。</p>
-      <p>如果要讓 Hermes 達到 OpenClaw 同等功能，不是只 migrate memory 就好。要逐項補 gateway policy、dashboard/control UI 替代方案、nodes 或 device workflow、media handling、channel bindings、auth/token 設定，最後每個入口都重新 smoke test。</p>
+      <p>這頁要先修正一個常見誤解：不能說 Hermes 能、OpenClaw 不能。兩者都可以有長期記憶、skills/tools、cron、Telegram/Discord，也都能跑在 GCE 或 VPS。</p>
+      <p>真正差異是 default path 和 operational surface。Hermes 從 CLI-first agent work loop 出發，把 model、memory、skills、cron、gateway 接成比較短的 demo 路徑；OpenClaw 從 gateway/control plane 出發，多通道、dashboard、nodes、device/media workflow 的預設面比較完整。</p>
+      <p>所以問題不是 capability，而是要補什麼。Hermes 要達到 OpenClaw 的 gateway ecosystem，需要補 routing policy、control UI、channel bindings、nodes、media handling。OpenClaw 要做這場 GCE agent-brain demo，也能做到，但要把 gateway/runtime 管理面先收斂成單一路徑。</p>
     </aside>
   </div>
 </section>
@@ -1450,15 +1450,15 @@
         <p class="t-body-sm" style="max-width:36ch">不要把 gateway 問題當成 memory 問題，也不要把 memory migration 當成 runtime migration。</p>
       </div>
       <div class="status-grid">
-        <div class="status-card accent"><div class="t-meta">Choose Hermes</div><div class="ttl">長期記憶與 skills 是主需求</div><div class="desc">你想讓 agent 在 server 上持續學習、整理 context、跑 cron。</div></div>
-        <div class="status-card"><div class="t-meta">Choose OpenClaw</div><div class="ttl">多通道入口是主需求</div><div class="desc">你已經依賴 dashboard、手機節點、更多 channel adapter。</div></div>
-        <div class="status-card"><div class="t-meta">Run Both</div><div class="ttl">先並行，不急著替換</div><div class="desc">用 Hermes 驗證 cloud agent loop；OpenClaw 留著承接既有入口。</div></div>
+        <div class="status-card accent"><div class="t-meta">Choose Hermes</div><div class="ttl">agent work loop 先跑通</div><div class="desc">同樣能做多通道，但先用較短 CLI / model / memory / cron 路徑驗證。</div></div>
+        <div class="status-card"><div class="t-meta">Choose OpenClaw</div><div class="ttl">gateway ecosystem 先跑通</div><div class="desc">同樣能做 agent work，但你已經需要 dashboard、nodes、channel routing。</div></div>
+        <div class="status-card"><div class="t-meta">Run Both</div><div class="ttl">能力重疊，先切層驗證</div><div class="desc">Hermes 跑低風險 agent job；OpenClaw 保留既有 gateway 入口。</div></div>
         <div class="status-card ink"><div class="t-meta">Avoid</div><div class="ttl">一次整包搬 runtime state</div><div class="desc">session、runs、bindings、cron 需要重建或審核，不是 memory。</div></div>
       </div>
     </div>
     <aside class="speaker-notes">
-      <p>這頁可以用在 Q&A 前預先降溫：不是說現在立刻棄用 OpenClaw，而是先找最小可逆路線。</p>
-      <p>如果聽眾問「能不能無痛轉移」，回答：persona/memory/skills 可以先 dry-run；gateway runtime 不應該整包搬。</p>
+      <p>這頁可以用在 Q&A 前預先降溫：不是說誰做不到，而是先判斷哪個預設路徑比較省力、哪個 runtime surface 比較適合目前需求。</p>
+      <p>如果聽眾問「是不是都差不多」，回答：能力有大量重疊，但預設整合點不同。新的 cloud agent work loop 可先試 Hermes；既有多通道 gateway/control plane 可先留在 OpenClaw。</p>
     </aside>
   </div>
 </section>
@@ -2175,29 +2175,29 @@ const I18N_TEXT={
   'GCE 負責常駐與工具執行；Hermes 負責 agent loop、memory、skills；模型 provider 與 messaging platform 都是可替換邊界。':'GCE handles uptime and tool execution; Hermes handles the agent loop, memory, and skills; model providers and messaging platforms are replaceable boundaries.',
   '這張不要講太深，重點是邊界：GCE、Hermes、provider、gateway 都能單獨替換。今天只選最短路徑。':'Do not go too deep here. The point is boundaries: GCE, Hermes, provider, and gateway can each be replaced. Today we choose the shortest path.',
   '強調 Telegram polling 與 Discord gateway 都是 outbound，因此 demo 不需要開 HTTP/HTTPS inbound firewall。':'Emphasize that Telegram polling and the Discord gateway are outbound, so the demo does not need inbound HTTP/HTTPS firewall rules.',
-  '不是 Hermes 才有記憶；差異是它把 memory、skills、cron、fresh sessions 接進同一個 agent loop。':'Hermes is not the only one with memory; the difference is that it connects memory, skills, cron, and fresh sessions into one agent loop.',
-  '長期記憶不是只存 `MEMORY.md`，還會變成可重用的 skills 與 workflow。':'Long-term memory is not just stored in `MEMORY.md`; it can become reusable skills and workflows.',
-  'GCE demo 主線是 cloud VM 上的 agent brain：模型、工具、cron、gateway 都在 server 跑。':'The GCE demo is about an agent brain on a cloud VM: models, tools, cron, and gateway all run on the server.',
-  '比較直的路徑：先跑通 CLI / model / memory，再接 Telegram 或 Discord。':'The shorter path is: get CLI, model, and memory working first, then connect Telegram or Discord.',
-  'OpenClaw 也有長期記憶，也能 self-host；它的強項更偏 gateway、dashboard、nodes 與 channel orchestration。':'OpenClaw also has long-term memory and can be self-hosted; its stronger edge is gateway, dashboard, nodes, and channel orchestration.',
-  'Memory source of truth 通常是 workspace Markdown、daily notes、`MEMORY.md`。':'The memory source of truth is usually workspace Markdown, daily notes, and `MEMORY.md`.',
-  'Server 可行；但 cloud 上要另外規劃 dashboard access、auth、nodes、device/media workflows。':'Running on a server is possible, but cloud deployment needs extra planning for dashboard access, auth, nodes, and device/media workflows.',
-  '要同等功能：需逐項補 gateway policy、channel bindings、control UI、nodes、smoke tests。':'For parity, add gateway policy, channel bindings, control UI, nodes, and smoke tests one by one.',
-  '這頁要先修正一個常見誤解：不能說 Hermes 有記憶、OpenClaw 沒有。OpenClaw 也有 memory，而且用 Markdown 做 source of truth 很透明。Hermes 的差異是 memory 會更緊密地接到 skills、自我改善、cron 與 agent loop，變成長期可重用的工作能力。':'Start by correcting a common misunderstanding: do not say Hermes has memory and OpenClaw does not. OpenClaw also has memory, and Markdown as the source of truth is very transparent. Hermes differs because memory is more tightly connected to skills, self-improvement, cron, and the agent loop, turning it into reusable long-term work capability.',
-  '第二個誤解是 cloud server。OpenClaw 也可以跑在 server；只是它的強項是 single Gateway、dashboard、multi-channel routing、nodes、device/media workflows。這場 GCE demo 的主線是 cloud VM 上長期跑 agent brain，所以 Hermes 的 installation、model、memory、cron、gateway path 比較短。':'The second misunderstanding is cloud servers. OpenClaw can also run on a server; its strength is the single Gateway, dashboard, multi-channel routing, nodes, and device/media workflows. This GCE demo is about running an agent brain long-term on a cloud VM, so the Hermes installation, model, memory, cron, and gateway path is shorter.',
-  '如果要讓 Hermes 達到 OpenClaw 同等功能，不是只 migrate memory 就好。要逐項補 gateway policy、dashboard/control UI 替代方案、nodes 或 device workflow、media handling、channel bindings、auth/token 設定，最後每個入口都重新 smoke test。':'If you want Hermes to reach OpenClaw feature parity, migrating memory is not enough. Add gateway policy, dashboard/control UI alternatives, nodes or device workflows, media handling, channel bindings, auth/token settings, and then smoke test every entry point again.',
+  '不是 Hermes 才能做到；差異是 agent work loop 的預設路徑比較短。':'Hermes is not the only one that can do this; the difference is the shorter default path for the agent work loop.',
+  'memory、skills、cron、model switching 都在同一條 CLI-first workflow 裡。':'Memory, skills, cron, and model switching sit in one CLI-first workflow.',
+  'GCE demo 先把 agent 工作腦跑穩，再接 Telegram 或 Discord。':'The GCE demo stabilizes the agent work brain first, then connects Telegram or Discord.',
+  '若要 OpenClaw 等級 gateway ecosystem，需要補 routing、UI、channel bindings。':'To reach an OpenClaw-level gateway ecosystem, add routing, UI, and channel bindings.',
+  'OpenClaw 也能做到 cloud agent、memory、skills、cron；差異是 gateway runtime 預設更完整。':'OpenClaw can also do cloud agents, memory, skills, and cron; the difference is its fuller default gateway runtime.',
+  '多通道、dashboard、nodes、device/media workflow 是較完整的預設面。':'Multi-channel, dashboard, nodes, and device/media workflow are the fuller default surface.',
+  '若只做 GCE agent brain，需要收斂 gateway/control plane 的管理面。':'If the goal is only a GCE agent brain, narrow the gateway/control-plane management surface first.',
+  '功能可達成，但維運面積、設定面與 smoke test 範圍不同。':'The functions are achievable, but the ops surface, config surface, and smoke-test scope differ.',
+  '這頁要先修正一個常見誤解：不能說 Hermes 能、OpenClaw 不能。兩者都可以有長期記憶、skills/tools、cron、Telegram/Discord，也都能跑在 GCE 或 VPS。':'Start by correcting a common misunderstanding: do not say Hermes can and OpenClaw cannot. Both can have long-term memory, skills/tools, cron, Telegram/Discord, and both can run on GCE or a VPS.',
+  '真正差異是 default path 和 operational surface。Hermes 從 CLI-first agent work loop 出發，把 model、memory、skills、cron、gateway 接成比較短的 demo 路徑；OpenClaw 從 gateway/control plane 出發，多通道、dashboard、nodes、device/media workflow 的預設面比較完整。':'The real difference is default path and operational surface. Hermes starts from a CLI-first agent work loop and connects model, memory, skills, cron, and gateway into a shorter demo path. OpenClaw starts from a gateway/control plane, with a fuller default surface for multi-channel, dashboard, nodes, and device/media workflows.',
+  '所以問題不是 capability，而是要補什麼。Hermes 要達到 OpenClaw 的 gateway ecosystem，需要補 routing policy、control UI、channel bindings、nodes、media handling。OpenClaw 要做這場 GCE agent-brain demo，也能做到，但要把 gateway/runtime 管理面先收斂成單一路徑。':'So the question is not capability; it is what needs to be added or narrowed. For Hermes to reach OpenClaw’s gateway ecosystem, add routing policy, control UI, channel bindings, nodes, and media handling. OpenClaw can also run this GCE agent-brain demo, but its gateway/runtime management surface should be narrowed into one path first.',
   '選型速判':'Fast selection guide',
   '不要把 gateway 問題當成 memory 問題，也不要把 memory migration 當成 runtime migration。':'Do not treat a gateway problem as a memory problem, and do not treat memory migration as runtime migration.',
-  '長期記憶與 skills 是主需求':'Long-term memory and skills are the main need',
-  '你想讓 agent 在 server 上持續學習、整理 context、跑 cron。':'You want the agent to learn, organize context, and run cron on a server.',
-  '多通道入口是主需求':'Multi-channel entry is the main need',
-  '你已經依賴 dashboard、手機節點、更多 channel adapter。':'You already depend on a dashboard, mobile nodes, and more channel adapters.',
-  '先並行，不急著替換':'Run in parallel before replacing anything',
-  '用 Hermes 驗證 cloud agent loop；OpenClaw 留著承接既有入口。':'Use Hermes to validate the cloud agent loop; keep OpenClaw for existing entry points.',
+  'agent work loop 先跑通':'Get the agent work loop working first',
+  '同樣能做多通道，但先用較短 CLI / model / memory / cron 路徑驗證。':'It can also do multi-channel, but first validate with the shorter CLI / model / memory / cron path.',
+  'gateway ecosystem 先跑通':'Get the gateway ecosystem working first',
+  '同樣能做 agent work，但你已經需要 dashboard、nodes、channel routing。':'It can also do agent work, but you already need dashboard, nodes, and channel routing.',
+  '能力重疊，先切層驗證':'Capabilities overlap; validate by layer first',
+  'Hermes 跑低風險 agent job；OpenClaw 保留既有 gateway 入口。':'Let Hermes run a low-risk agent job; keep OpenClaw for the existing gateway entry points.',
   '一次整包搬 runtime state':'Moving runtime state in one bulk step',
   'session、runs、bindings、cron 需要重建或審核，不是 memory。':'Sessions, runs, bindings, and cron need review or rebuild. They are not memory.',
-  '這頁可以用在 Q&A 前預先降溫：不是說現在立刻棄用 OpenClaw，而是先找最小可逆路線。':'Use this before Q&A to lower the pressure: this is not about dropping OpenClaw immediately, but about finding the smallest reversible path.',
-  '如果聽眾問「能不能無痛轉移」，回答：persona/memory/skills 可以先 dry-run；gateway runtime 不應該整包搬。':'If someone asks about a painless migration, answer this way: persona, memory, and skills can be dry-run first; gateway runtime should not be moved wholesale.',
+  '這頁可以用在 Q&A 前預先降溫：不是說誰做不到，而是先判斷哪個預設路徑比較省力、哪個 runtime surface 比較適合目前需求。':'Use this before Q&A to lower the pressure: this is not about who cannot do something. It is about which default path is easier and which runtime surface fits the current need.',
+  '如果聽眾問「是不是都差不多」，回答：能力有大量重疊，但預設整合點不同。新的 cloud agent work loop 可先試 Hermes；既有多通道 gateway/control plane 可先留在 OpenClaw。':'If someone asks whether they are basically the same, answer this way: capabilities overlap heavily, but the default integration point differs. Try Hermes first for a new cloud agent work loop; keep OpenClaw for an existing multi-channel gateway/control plane.',
   '從乾淨 VM 到手機回覆':'From a clean VM to a phone reply',
   '如果卡住，直接跳到 slide 21 的 recovery ladder。':'If anything gets stuck, jump straight to the recovery ladder on slide 21.',
   '提醒自己：live demo 一定先準備好 Telegram bot token 和 Codex device login；Gemini API key 作為備援，但不要投影任何 secret。現場只貼 placeholder 或在不投影的終端輸入。':'Speaker reminder: prepare the Telegram bot token and Codex device login before the live demo. Keep the Gemini API key as fallback, but never project any secret. Paste placeholders or type them in a non-projected terminal.',
